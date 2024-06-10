@@ -8,6 +8,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+
+import java.lang.reflect.InvocationTargetException;
 import java.time.Duration;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +24,8 @@ public class BookingPage {
     WebElement popupAlert;
     @FindBy(xpath = "//span[text()='Find your next stay']")
     WebElement welcomeMessage;
+    @FindBy(xpath = "//div[text()=\"Sign in, save money\"]")
+    WebElement loginAlert;
     @FindBy(xpath = "//input[@aria-label=\"Where are you going?\"]")
     WebElement setPlace;
     @FindBy(xpath = "//div[text()='Aqaba Governorate, Jordan']")
@@ -76,17 +80,24 @@ public class BookingPage {
         functionLibrary.waitForElementVisible(welcomeMessage);
         Assert.assertTrue(welcomeMessage.isDisplayed(), "Text 'Find your next stay' is not displayed");
     }
-    public void selectDestination(String targetPlace) throws InterruptedException {
+    public void selectDestination(String targetPlace)  {
         // In the field "Where are you going" >> select Aqaba/ Jordan
-        /*try {
-            if (alertCloseBtn.isDisplayed()) {
+
+        // Wait for the loginAlert to be present and visible
+        try {
+            // Wait for the loginAlert to be present and visible
+            wait.until(ExpectedConditions.visibilityOf(loginAlert));
+
+            if (loginAlert.isDisplayed()) {
                 actions.click(alertCloseBtn).build().perform();
             } else {
                 System.out.println("Element is not displayed");
             }
         } catch (NoSuchElementException e) {
             System.out.println("Element not found");
-        }*/
+        } catch (TimeoutException e) {
+            System.out.println("Element was not found within the wait time");
+        }
         functionLibrary.waitForElementVisible(popupAlert);
         popupAlert.click();
         setPlace.sendKeys(targetPlace);
@@ -142,7 +153,7 @@ public class BookingPage {
         functionLibrary.waitForElementVisible(myNextTripLink);
         myNextTripLink.click();
     }
-    public void assertPrice() throws InterruptedException {
+    public void assertPrice() {
         // Assert that the price is lower than 700 JOD
         String mainWindow = driver.getWindowHandle();
         Set<String> allWindows = driver.getWindowHandles();
@@ -167,7 +178,7 @@ public class BookingPage {
             System.out.println("Price is  Higher than 700 euro " + priceText);
         }
     }
-    public void viewProperty() throws InterruptedException {
+    public void viewProperty() {
         // Press  "View Property" button
         actions.click(viewPropertyBtn).build().perform();
     }
@@ -178,7 +189,7 @@ public class BookingPage {
             driver.switchTo().window(windowHandle);
             System.out.println("Window title: " + driver.getTitle());
         }
-        functionLibrary.waitForElementVisible(reserveBtn);
+        wait.until(ExpectedConditions.visibilityOf(reserveBtn));
         actions.click(reserveBtn).build().perform();
     }
     public void selectAmountAndConfirm() {

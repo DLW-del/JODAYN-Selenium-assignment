@@ -33,10 +33,9 @@ public class ReserveTest extends BasePage {
     }
 
     @Test(priority = 2, dependsOnMethods ="navigateAndAssert")
-    public void searchTargetHotelWithInfo() throws InterruptedException {
+    public void searchTargetHotelWithInfo(){
         bookingPage.selectDestination("Aqaba/Jordan");
         bookingPage.selectDates();
-
         try {
             bookingPage.setTravelDetails();
         } catch (InterruptedException e) {
@@ -69,14 +68,8 @@ public class ReserveTest extends BasePage {
 
     @Test(priority = 6, dependsOnMethods ="savePropertyAndOpenMyTrip")
     public void assertHotelPriceAndViewProperty(){
-        try {bookingPage.assertPrice();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        try {bookingPage.viewProperty();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        bookingPage.assertPrice();
+        bookingPage.viewProperty();
     }
 
     @Test(priority = 7, dependsOnMethods ="assertHotelPriceAndViewProperty")
