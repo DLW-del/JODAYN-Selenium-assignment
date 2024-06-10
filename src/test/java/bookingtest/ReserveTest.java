@@ -52,13 +52,12 @@ public class ReserveTest extends BasePage {
     @Test(priority = 3, dependsOnMethods ="searchTargetHotelWithInfo")
     public void printNumberOfProperty(){
         bookingPage.printPropertiesFound();
-        //Assert.assertTrue(true);
     }
 
     @Test(priority = 4, dependsOnMethods ="printNumberOfProperty")
     public void scrollToTargetPropertyAndGetName(){
         bookingPage.scrollAndDisplayProperty();
-     //   Assert.assertTrue(true);
+
     }
 
     @Test(priority = 5, dependsOnMethods ="scrollToTargetPropertyAndGetName")

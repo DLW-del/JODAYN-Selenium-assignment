@@ -152,7 +152,6 @@ public class BookingPage {
                 break;
             }
         }
-        //actions.click(closeBanner).build().perform();
         JavascriptExecutor js = (JavascriptExecutor) driver;
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class=\"prco-valign-middle-helper\"]")));
         js.executeScript("arguments[0].scrollIntoView();", driver.findElement(By.xpath("//span[@class=\"prco-valign-middle-helper\"]")));
